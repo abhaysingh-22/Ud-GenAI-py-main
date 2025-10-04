@@ -1,6 +1,6 @@
 # Prompt Styles
 
-## Alpaca Prompt
+## Alpaca Prompt   // this is a type of prompting
 
 ### Instructions: <SYSTEM_PROMPT>\n
 
