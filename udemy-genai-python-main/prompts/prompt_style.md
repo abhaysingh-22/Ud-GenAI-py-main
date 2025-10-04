@@ -8,13 +8,14 @@
 
 ### Response:\n
 
-# ChatML
+# ChatML.    // this is another type of prompting
 
 {
 "role": "system" | "user" | "assistant"
 "content": "string"
 }
 
-# INST Prompting
+# INST Prompting      // this is another type of prompting used by LLaMa 02
 
 [INST] What is the time now? [/INST]
+inst means instruction
