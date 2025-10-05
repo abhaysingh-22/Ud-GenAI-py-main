@@ -12,7 +12,7 @@ def read_root():
 
 @app.get("/contact-us")
 def read_root():
-    return {"email": "piyushgarg.dev@gmail.com"}
+    return {"email": "abhaysingh.dev@gmail.com"}
 
 @app.post("/chat")
 def chat(
@@ -23,3 +23,5 @@ def chat(
     ])
 
     return { "response": response.message.content }
+
+# see this code is running on http://localhost:8000/docs and for that you need to setup ollama-docker in the pc basically you have to run one of the model locally in your pc
