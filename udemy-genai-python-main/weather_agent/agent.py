@@ -9,7 +9,10 @@ import os
 
 load_dotenv()
 
-client = OpenAI()
+client = OpenAI(
+    base_url="https://openrouter.ai/api/v1",
+    api_key=os.getenv("OPENROUTER_API_KEY"),
+)
 
 def run_command(cmd: str):
     result = os.system(cmd)
@@ -95,7 +98,11 @@ while True:
 
     while True:
         response = client.chat.completions.parse(
-            model="gpt-4o",
+            extra_headers={
+                "HTTP-Referer": "https://your-site.com",
+                "X-Title": "Weather Agent - Chain of Thought",
+            },
+            model="openai/gpt-4o",
             response_format=MyOutputFormat,
             messages=message_history
         )
