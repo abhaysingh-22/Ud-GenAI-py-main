@@ -82,6 +82,8 @@ SYSTEM_PROMPT = """
 
 print("\n\n\n")
 
+# this myoutputformat class is a pydantic defined to enforce a strcutred json format for the AI assistant to follow
+# this help to prevent unstructured or invalid response from the model
 class MyOutputFormat(BaseModel):
     step: str = Field(..., description="The ID of the step. Example: PLAN, OUTPUT, TOOL, etc")
     content: Optional[str] = Field(None, description="The optional string content for the step")
