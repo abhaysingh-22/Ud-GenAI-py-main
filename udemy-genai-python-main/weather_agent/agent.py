@@ -14,6 +14,9 @@ client = OpenAI(
     api_key=os.getenv("OPENROUTER_API_KEY"),
 )
 
+# this is used to run linux commands on the user's system
+# be careful while using this as it can be dangerous if you run any harmful commands
+# you can use this agent to create folders, files etc on your system in CLI. just say to this agent in the temrinal what you want to create and what you want to do it will do it on its own
 def run_command(cmd: str):
     result = os.system(cmd)
     return result
