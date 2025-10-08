@@ -17,7 +17,7 @@ docs = loader.load()      # this will load the document by every single page
 # Split the docs into smaller chunks
 text_splitter = RecursiveCharacterTextSplitter(
     chunk_size=1000,
-    chunk_overlap=400
+    chunk_overlap=400      # this means 400 characters of previous chunk will be repeated in the next chunk so that context is not lost
 )
 
 chunks = text_splitter.split_documents(documents=docs)
