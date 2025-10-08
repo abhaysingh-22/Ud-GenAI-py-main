@@ -12,7 +12,7 @@ pdf_path = Path(__file__).parent / "nodejs.pdf"
 
 # Load this file in python program
 loader = PyPDFLoader(file_path=pdf_path)
-docs = loader.load()
+docs = loader.load()      # this will load the document by every single page
 
 # Split the docs into smaller chunks
 text_splitter = RecursiveCharacterTextSplitter(
