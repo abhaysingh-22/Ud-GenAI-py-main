@@ -1,15 +1,22 @@
 from dotenv import load_dotenv
 from openai import OpenAI
-from langchain_openai import OpenAIEmbeddings
+from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_qdrant import QdrantVectorStore
+import os
+
+# Disable tokenizer parallelism warning
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 load_dotenv()
 
-openai_client = OpenAI()
+openai_client = OpenAI(
+    base_url="https://openrouter.ai/api/v1",
+    api_key=os.getenv("OPENROUTER_API_KEY"),
+)
 
-# Vector Embeddings
-embedding_model = OpenAIEmbeddings(
-    model="text-embedding-3-large"
+# Vector Embeddings - Using HuggingFace (same as chat.py)
+embedding_model = HuggingFaceEmbeddings(
+    model_name="sentence-transformers/all-MiniLM-L6-v2"
 )
 
 vector_db = QdrantVectorStore.from_existing_collection(
@@ -35,7 +42,11 @@ async def process_query(query:str):
     """
 
     response = openai_client.chat.completions.create(
-        model="gpt-5",
+        extra_headers={
+            "HTTP-Referer": "https://your-site.com",
+            "X-Title": "RAG Queue Worker",
+        },
+        model="openai/gpt-4o",
         messages=[
             { "role": "system", "content":SYSTEM_PROMPT  },
             { "role": "user", "content":query  },
