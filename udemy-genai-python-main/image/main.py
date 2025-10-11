@@ -1,12 +1,20 @@
 from dotenv import load_dotenv
 from openai import OpenAI
+import os
 
 load_dotenv()
 
-client = OpenAI()
+client = OpenAI(
+    base_url="https://openrouter.ai/api/v1",
+    api_key=os.getenv("OPENROUTER_API_KEY"),
+)
 
 response = client.chat.completions.create(
-    model="gpt-4.1-mini",
+    extra_headers={
+        "HTTP-Referer": "https://your-site.com",
+        "X-Title": "Image Caption Generator",
+    },
+    model="openai/gpt-4o",
     messages=[
         {
             "role": "user",
