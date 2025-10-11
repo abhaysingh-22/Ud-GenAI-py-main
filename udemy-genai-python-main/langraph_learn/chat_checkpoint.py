@@ -3,14 +3,20 @@ from typing_extensions import TypedDict
 from typing import Annotated
 from langgraph.graph.message import add_messages
 from langgraph.graph import StateGraph, START, END
-from langchain.chat_models import init_chat_model
+from langchain_openai import ChatOpenAI
 from langgraph.checkpoint.mongodb import MongoDBSaver
+import os
 
 load_dotenv()
 
-llm = init_chat_model(
-    model="gpt-4.1-mini",
-    model_provider="openai"
+llm = ChatOpenAI(
+    model="openai/gpt-4o",
+    openai_api_key=os.getenv("OPENROUTER_API_KEY"),
+    openai_api_base="https://openrouter.ai/api/v1",
+    default_headers={
+        "HTTP-Referer": "http://localhost:3000",
+        "X-Title": "LangGraph Checkpoint"
+    }
 )
 
 class State(TypedDict):
@@ -33,19 +39,19 @@ graph = graph_builder.compile()
 def compile_graph_with_checkpointer(checkpointer):
     return graph_builder.compile(checkpointer=checkpointer)
 
-DB_URI = "mongodb://admin:admin@localhost:27017"
+DB_URI = "mongodb://admin:admin%40123@localhost:27017"
 with MongoDBSaver.from_conn_string(DB_URI) as checkpointer:
     graph_with_checkpointer = compile_graph_with_checkpointer(checkpointer=checkpointer)
 
     config = {
             "configurable": {
-                "thread_id": "piyush" # user_id
+                "thread_id": "abhay" # user_id if i change this my chatbot will forget previous conversation and will not remember previous conversation
             }
         }
 
 
     for chunk in graph_with_checkpointer.stream(
-        State({"messages": ["what is my name?"]}),
+        State({"messages": ["What is my name?"]}),
         config,
         stream_mode="values"
         ):
@@ -57,4 +63,4 @@ with MongoDBSaver.from_conn_string(DB_URI) as checkpointer:
 # state = { messages: ["Hey there"] }
 # node runs: chatbot(state: ["Hey There"]) -> ["Hi, This is a message from ChatBot Node"]
 
-# Checkpointer (piyush) = Hey, My name is Piyush Garg
+# Checkpointer (abhay) = Hey, My name is Abhay Singh
