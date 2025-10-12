@@ -7,6 +7,8 @@ from openai import OpenAI
 
 load_dotenv()
 
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
+
 client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
     api_key=os.getenv("OPENROUTER_API_KEY"),
@@ -34,9 +36,9 @@ config = {
     "graph_store":{
         "provider": "neo4j",
         "config": {
-            "url": "neo4j+s://fd10af2d.databases.neo4j.io",
+            "url": "neo4j://localhost:7687",
             "username": "neo4j",
-            "password": "Ri_hsFutNnQr0YyGeRzHroB_GlvYE-ATBVgMbu9Ohco"
+            "password": "password123"
         }
     },
     "vector_store": {
@@ -56,7 +58,8 @@ while True:
 
     user_query = input("> ")
 
-    search_memory = mem_client.search(query=user_query, user_id="piyushgarg",)
+# this help to retrieve relevant memories
+    search_memory = mem_client.search(query=user_query, user_id="abhaysingh",)
 
     memories = [
         f"ID: {mem.get("id")}\nMemory: {mem.get("memory")}" 
@@ -70,6 +73,7 @@ while True:
         {json.dumps(memories)}
     """
 
+# this is where we are asking the model to remember the previous conversation
     response = client.chat.completions.create(
         model="openai/gpt-4o-mini",
         messages=[
@@ -83,7 +87,7 @@ while True:
     print("AI:", ai_response)
 
     mem_client.add(
-        user_id="piyushgarg",
+        user_id="abhaysingh",
         messages=[
             { "role": "user", "content": user_query },
             { "role": "assistant", "content": ai_response }
