@@ -7,7 +7,14 @@ from openai import OpenAI
 
 load_dotenv()
 
-client = OpenAI()
+client = OpenAI(
+    base_url="https://openrouter.ai/api/v1",
+    api_key=os.getenv("OPENROUTER_API_KEY"),
+    default_headers={
+        "HTTP-Referer": "http://localhost:3000",
+        "X-Title": "Memory Agent"
+    }
+)
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 config = {
@@ -60,7 +67,7 @@ while True:
     """
 
     response = client.chat.completions.create(
-        model="gpt-4.1-mini",
+        model="openai/gpt-4o-mini",
         messages=[
             { "role": "system", "content": SYSTEM_PROMPT },
             { "role": "user", "content": user_query }
