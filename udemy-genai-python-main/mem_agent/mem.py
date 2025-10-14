@@ -23,7 +23,9 @@ config = {
     "version": "v1.1",
     "embedder": {
         "provider": "huggingface",
-        "config": { "model": "sentence-transformers/all-MiniLM-L6-v2" }
+        "config": { 
+            "model": "sentence-transformers/all-MiniLM-L6-v2"
+        }
     },
     "llm": {
         "provider": "openai",
@@ -33,19 +35,20 @@ config = {
             "openai_base_url": "https://openrouter.ai/api/v1"
         }
     },
-    "graph_store":{
-        "provider": "neo4j",
-        "config": {
-            "url": "neo4j://localhost:7687",
-            "username": "neo4j",
-            "password": "password123"
-        }
-    },
+    # "graph_store":{
+    #     "provider": "neo4j",
+    #     "config": {
+    #         "url": "neo4j://localhost:7687",
+    #         "username": "neo4j",
+    #         "password": "password123"
+    #     }
+    # },
     "vector_store": {
         "provider": "qdrant",
         "config": {
             "host": "localhost",
-            "port": 6333
+            "port": 6333,
+            "embedding_model_dims": 384  # Set dimension for HuggingFace model
         }
     }
 }
