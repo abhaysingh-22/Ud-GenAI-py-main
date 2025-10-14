@@ -50,6 +50,10 @@ config = {
     }
 }
 
+# see the code is not working because i didn't have setup neo4j DB for storing data of graphs
+# note that it can setup locally or you can use neo4j cloud as well best option is to setup on the cloud
+# i have not even setup my id on neo4j cloud so it is not working for me
+
 mem_client = Memory.from_config(config)
 
 
