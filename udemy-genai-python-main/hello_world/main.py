@@ -21,3 +21,8 @@ response = client.chat.completions.create(
 )
 
 print(response.choices[0].message.content)
+# response is the full API result returned by client.chat.completions.create(...).
+# response.choices is a list of generated replies.
+# [0] picks the first reply in that list.
+# .message.content gets the actual text of that reply.
+# print(...) shows that text in your terminal.
